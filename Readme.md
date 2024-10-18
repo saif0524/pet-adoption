@@ -13,7 +13,7 @@
 	$ mvnw.cmd clean compile exec:java 		[on windows]
 	$ ./mvnw clean compile exec:java 		[on windows]
 
-#### For client, first go to python-client directory: 
+#### For running the client, first go to python-client directory: 
 	$ cd <path/to/>python-client 
 
 #### Optional: Download the pre-requisites:
