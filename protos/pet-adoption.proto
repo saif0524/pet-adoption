@@ -1,0 +1,46 @@
+syntax = "proto3";
+
+option java_package = "grpc";
+option java_outer_classname = "PetAdoptionProto";
+
+package petadoption;
+
+service PetAdoption {
+    // Register a new pet
+    rpc RegisterPet (RegisterPetRequest) returns (RegisterPetResponse);
+
+    // Search for a pet by one of its key details
+    rpc SearchPet (SearchPetRequest) returns (SearchPetResponse);
+}
+
+message RegisterPetRequest {
+    string name = 1;
+    string gender = 2;
+    int32 age = 3;
+    string breed = 4;
+    bytes picture = 5;
+}
+
+message RegisterPetResponse {
+    bool success = 1;
+    string message = 2;
+}
+
+message SearchPetRequest {
+    string name = 1;
+    string gender = 2;
+    int32 age = 3;
+    string breed = 4;
+}
+
+message PetInfo {
+    string name = 1;
+    string gender = 2;
+    int32 age = 3;
+    string breed = 4;
+    bytes picture = 5;
+}
+
+message SearchPetResponse {
+    repeated PetInfo pets = 1;
+}
