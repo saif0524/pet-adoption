@@ -1,0 +1,26 @@
+version: '3.8'
+
+services:
+  java-server:
+    build:
+      context: ./java-server
+      dockerfile: Dockerfile
+    ports:
+      - "50051:50051"  # Expose the gRPC port
+    networks:
+      - pet_network
+    container_name: java_grpc_server
+
+  python-client:
+    build:
+      context: ./python-client
+      dockerfile: Dockerfile
+    depends_on:
+      - java-server  # Ensure the Java server starts first
+    networks:
+      - pet_network
+    container_name: python_grpc_client
+
+networks:
+  pet_network:
+    driver: bridge

@@ -1,0 +1,30 @@
+# Stage 1: Build the Java application using Maven
+FROM maven:3.9.6-openjdk-11 AS build
+
+# Set the working directory inside the container
+WORKDIR /app
+
+# Copy the pom.xml file and download dependencies
+COPY pom.xml /app/
+RUN mvn dependency:go-offline
+
+# Copy the entire source code into the container
+COPY src /app/src
+
+# Build the Java project
+RUN mvn clean package
+
+# Stage 2: Run the application using a smaller JRE image
+FROM openjdk:11-jre-slim
+
+# Set the working directory inside the container
+WORKDIR /app
+
+# Copy the JAR file from the build stage
+COPY --from=build /app/target/java-server-1.0-SNAPSHOT.jar /app/
+
+# Expose the gRPC server port (adjust if different)
+EXPOSE 50051
+
+# Command to run the Java server
+CMD ["java", "-jar", "java-server-1.0-SNAPSHOT.jar"]
