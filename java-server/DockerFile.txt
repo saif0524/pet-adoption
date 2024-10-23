@@ -15,7 +15,7 @@ COPY src /app/src
 RUN mvn clean package
 
 # Stage 2: Run the application using a smaller JRE image
-FROM openjdk:11-jre-slim
+FROM openjdk:8-jre-alpine
 
 # Set the working directory inside the container
 WORKDIR /app

@@ -1,5 +1,5 @@
 # Stage 1: Build the Java application using Maven
-FROM maven:3.9.6-openjdk-11 AS build
+FROM maven:3.9.6-openjdk-8 AS build
 
 # Set the working directory inside the container
 WORKDIR /app
@@ -15,7 +15,7 @@ COPY src /app/src
 RUN mvn clean package
 
 # Stage 2: Run the application using a smaller JRE image
-FROM openjdk:11-jre-slim
+FROM FROM openjdk:8-jre-alpine
 
 # Set the working directory inside the container
 WORKDIR /app
