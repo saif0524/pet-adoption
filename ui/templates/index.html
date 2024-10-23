@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pet Adoption System</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 40px; }
+        .container { max-width: 600px; margin: 0 auto; }
+        .section { margin-bottom: 20px; }
+        label { display: block; margin-bottom: 5px; }
+        input, select { width: 100%; padding: 8px; margin-bottom: 10px; }
+        button { padding: 10px 20px; cursor: pointer; }
+        .results { margin-top: 20px; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Pet Adoption System</h1>
+        
+        <!-- Register Pet Section -->
+        <div class="section">
+            <h2>Register a New Pet</h2>
+            <label for="name">Pet Name:</label>
+            <input type="text" id="name" placeholder="Enter pet name" />
+            
+            <label for="gender">Gender:</label>
+            <select id="gender">
+                <option value="Male">Male</option>
+                <option value="Female">Female</option>
+            </select>
+
+            <label for="age">Age:</label>
+            <input type="number" id="age" placeholder="Enter pet age" />
+            
+            <label for="breed">Breed:</label>
+            <input type="text" id="breed" placeholder="Enter pet breed" />
+			
+			<label for="picture">Picture:</label>
+            <input type="file" id="picture" accept="image/*" />
+            
+            <button onclick="registerPet()">Register Pet</button>
+        </div>
+
+        <!-- Search Pet Section -->
+        <div class="section">
+
+            <h2>Search for a Pet</h2>
+			
+			<div class="section">
+				
+				<label for="search_name">Pet Name:</label>
+				<input type="text" id="search_name" placeholder="Enter pet name to search" />
+				
+				<button onclick="searchByName()">Search by name</button>
+			</div>
+
+			<div class="section">
+				<label for="search_gender">Pet Gender:</label>
+				<input type="text" id="search_gender" placeholder="Enter pet gender to search" />
+				
+				<button onclick="searchByGender()">Search by gender</button>
+			</div>
+
+
+        </div>
+
+
+
+
+
+        <!-- Search Results -->
+        <div class="results" id="results"></div>
+    </div>
+
+    <script>
+        const apiUrl = 'http://localhost:5000';
+
+        // Register a new pet
+        function registerPet() {
+            const name = document.getElementById('name').value;
+            const gender = document.getElementById('gender').value;
+            const age = document.getElementById('age').value;
+            const breed = document.getElementById('breed').value;
+            const picture = document.getElementById('picture').files[0];
+
+
+            const petData = { name, gender, age, breed };
+
+            fetch(`${apiUrl}/register_pet`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(petData),
+            })
+            .then(response => response.json())
+            .then(data => {
+                alert(data.message);
+            })
+            .catch(error => console.error('Error:', error));
+        }
+
+        // Search for a pet
+        function searchByName() {
+            const searchName = document.getElementById('search_name').value;
+
+            fetch(`${apiUrl}/search_pet_name?name=${searchName}`)
+            .then(response => response.json())
+            .then(data => {
+                const resultsDiv = document.getElementById('results');
+                resultsDiv.innerHTML = '<h3>Search Results</h3>';
+
+                if (data.pets.length === 0) {
+                    resultsDiv.innerHTML += '<p>No pets found.</p>';
+                } else {
+                    data.pets.forEach(pet => {
+					
+						const base64Image = `data:image/jpeg;base64,${pet.picture}`;
+                        console.log(base64Image);
+						resultsDiv.innerHTML += `
+                            <p><strong>Name:</strong> ${pet.name}</p>
+                            <p><strong>Gender:</strong> ${pet.gender}</p>
+                            <p><strong>Age:</strong> ${pet.age}</p>
+                            <p><strong>Breed:</strong> ${pet.breed}</p>
+							<p><strong>Picture:</strong></p>
+							<img src="${base64Image}" alt="${pet.name}'s picture" style="max-width: 50%; height: auto;" />
+							<hr/>
+
+
+                        `;
+                    });
+                }
+            })
+            .catch(error => console.error('Error:', error));
+        }
+		
+		
+		
+		
+		function searchByGender() {
+            const searchGender = document.getElementById('search_gender').value;
+
+            fetch(`${apiUrl}/search_pet_gender?gender=${searchGender}`)
+            .then(response => response.json())
+            .then(data => {
+                const resultsDiv = document.getElementById('results');
+                resultsDiv.innerHTML = '<h3>Search Results</h3>';
+
+                if (data.pets.length === 0) {
+                    resultsDiv.innerHTML += '<p>No pets found.</p>';
+                } else {
+                    data.pets.forEach(pet => {
+                        resultsDiv.innerHTML += `
+                            <p><strong>Name:</strong> ${pet.name}</p>
+                            <p><strong>Gender:</strong> ${pet.gender}</p>
+                            <p><strong>Age:</strong> ${pet.age}</p>
+                            <p><strong>Breed:</strong> ${pet.breed}</p>
+                            <hr/>
+                        `;
+                    });
+                }
+            })
+            .catch(error => console.error('Error:', error));
+        }
+		
+		
+    </script>
+</body>
+</html>
