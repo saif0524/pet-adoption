@@ -1,4 +1,4 @@
-#### Q3. 
+#### Pet Adoption System (UTA CSE 5306)
 
 #### For starting the server, first go to java-server directory:
 	$ cd <path/to/>java-server 
@@ -25,7 +25,7 @@
 
  
  ```bash
-pet-adoption/			#project-root
+pet-adoption/						#project-root
 │
 ├── java-server/
 │   ├── src/main/java/
@@ -37,11 +37,11 @@ pet-adoption/			#project-root
 │   ├── pom.xml
 │
 ├── python-client/
-│   ├── pet-adoption-client.py		 # run this after running the java server
-│   ├── pet_adoption_pb2.py 	     # Generated from .proto file
-│   ├── pet_adoption_pb2_grpc.py	 # Generated from .proto file
-│   ├── requirements.txt			 # requirements to download pre-rquisites for python 
+│   ├── pet-adoption-client.py				# run this after running the java server
+│   ├── pet_adoption_pb2.py				# Generated from .proto file
+│   ├── pet_adoption_pb2_grpc.py			# Generated from .proto file
+│   ├── requirements.txt				# requirements to download pre-rquisites for python 
 │
 ├── protos/
-│   ├── pet_adoption.proto       	# .proto file shared with both Java and Python
+│   ├── pet_adoption.proto				# .proto file shared with both Java and Python
 ```
